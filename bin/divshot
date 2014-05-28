@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-var cli = require('../index.js');
+var cli = require('../lib/cli');
 var updateNotifier = require('update-notifier');
 var pkg = require('../package.json');
+var feedback = require('feedback');
 var updateCheckInterval = 1000 * 60 * 60 * 24 * 7; // 1 week
 
 // Check for update
@@ -13,6 +14,20 @@ var notifier = updateNotifier({
 });
 
 if (notifier.update) notifier.notify();
+
+cli.on('data', function (data) {
+  if (typeof data === 'object') print(data, {});
+  else feedback.info(data);
+});
+
+cli.on('error', function (err) {
+  feedback.error(err);
+  process.exit(1);
+});
+
+cli.on('warn', function (msg) {
+  feedback.warn(msg);
+});
 
 cli.run(process.argv);
 

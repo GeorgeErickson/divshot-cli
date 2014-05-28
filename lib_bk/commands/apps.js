@@ -1,16 +1,16 @@
 var format = require('chalk');
 var _ = require('lodash');
 
-module.exports = function (cli, api) {
-  var getApps = api.get('apps');
-  
+module.exports = function (cli) {
   cli.command('apps')
+    .description('list your Divshot apps')
+    .before('authenticate')
     .handler(function (done) {
-      getApps().then(function (res) {
-        var apps = res.body;
-        
+      cli.api.apps.list(function (err, apps) {
         cli.log();
-        
+              
+        if (apps && apps.error === 'invalid_token') return done(cli.errors.INVALID_TOKEN);
+        if (apps && apps.error) return done(apps.error);
         if (!apps || !apps.self) return done(cli.errors.DEFAULT);
         
         cli.log(format.yellow('  Your apps\n'));
@@ -18,24 +18,18 @@ module.exports = function (cli, api) {
         printApps(apps.self);
         printOrgApps(apps);
         
-        done(null, apps);
-      }, function (res) {
-        var body = res.body;
-        
-        if (body.error === 'invalid_token')  return done(cli.errors.INVALID_TOKEN);
-        if (body.error) return done(body.error);
-        
-        done(cli.errors.DEFAULT);
+        done(err, apps);
       });
     });
   
   function printOrgApps (apps) {
-    _(apps).keys().filter(isOrg).each(printOrgTitle);
-    
-    function isOrg (name) {
-      return name.split(':')[0] === 'org';
-    }
-    
+    _(apps)
+      .keys()
+      .filter(function (name) {
+        return name.split(':')[0] === 'org';
+      })
+      .each(printOrgTitle);
+      
     function printOrgTitle (name) {
       var type = name.split(':')[0]
       var orgName = name.split(':')[1]
@@ -54,10 +48,11 @@ module.exports = function (cli, api) {
   }
   
   function printApps (apps) {
-    _(apps).map(filename).sortBy().each(cli.log.bind(cli));
-    
-    function filename (app) {
-      return '  ' + (app.name || app.architect.filename);
-    }
+    _(apps)
+      .map(function (app) {
+        return '  ' + (app.name || app.architect.filename);
+      })
+      .sortBy()
+      .each(cli.log.bind(cli));
   }
 };

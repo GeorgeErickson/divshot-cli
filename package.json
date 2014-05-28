@@ -1,7 +1,7 @@
 {
   "name": "divshot-cli",
-  "description": "CLI for Divshot",
-  "version": "0.11.1",
+  "description": "Divshot utility toolbelt for static apps",
+  "version": "0.12.0",
   "dependencies": {
     "async": "~0.9.0",
     "chalk": "~0.4.0",
@@ -9,7 +9,7 @@
     "divshot-api": "0.6.x",
     "divshot-upload": "0.2.x",
     "feedback": "~0.3.0",
-    "home-dir": "~0.1.1",
+    "home-dir": "~0.2.0",
     "lodash": "~2.4.1",
     "markdown": "^0.5.0",
     "mkdirp": "0.5.x",
@@ -26,17 +26,18 @@
     "tarzan": "0.1.x",
     "through": "~2.3.4",
     "update-notifier": "~0.1.8",
-    "writestreamp": "^0.1.0"
+    "writestreamp": "^0.1.0",
+    "zip-object": "^0.1.0"
   },
   "devDependencies": {
-    "sinon": "~1.7.3",
+    "chai": "^1.9.1",
+    "jshint": "~2.3.0",
+    "mocha": "^1.19.0",
     "mocksy": "~0.1.4",
-    "mocha": "~1.14.0",
-    "expect.js": "~0.2.0",
-    "jshint": "~2.3.0"
+    "sinon": "~1.7.3"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --recursive --reporter spec ./test"
+    "test": "mocha test/"
   },
   "author": "Divshot",
   "homepage": "http://divshot.com",
@@ -54,27 +55,8 @@
   ],
   "preferGlobal": "true",
   "bin": {
-    "divshot": "bin/divshot.js"
+    "divshot": "bin/divshot",
+    "ds": "bin/divshot"
   },
-  "main": "bin/divshot.js",
-  "engines": {
-    "node": "0.10"
-  },
-  "contributors": [
-    {
-      "name": "Scott Corgan",
-      "email": "scott@divshot.com",
-      "url": "https://github.com/scottcorgan"
-    },
-    {
-      "name": "Michael Bleigh",
-      "email": "scott@divshot.com",
-      "url": "https://github.com/mbleigh"
-    },
-    {
-      "name": "Collin Miller",
-      "email": "collin@divshot.com",
-      "url": "https://github.com/collin"
-    }
-  ]
+  "main": "lib/index.js"
 }

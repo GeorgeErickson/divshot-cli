@@ -1,4 +1,12 @@
-var commands = {
+var commands = function (cli) {
+  Object.keys(commands.list).forEach(function (commandName) {
+    commands.list[commandName](cli);
+  });
+};
+
+module.exports = commands;
+
+commands.list = {
   account: require('./account'),
   apps: require('./apps'),
   auth: require('./auth'),
@@ -25,8 +33,7 @@ var commands = {
   unprotect: require('./unprotect')
 };
 
-exports.connect = function (cli) {
-  Object.keys(commands).forEach(function (commandName) {
-    commands[commandName](cli);
-  });
+commands.get = function (name) {
+  return commands.list[name];
 };
+

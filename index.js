@@ -14,6 +14,7 @@ var semver = require('semver');
 var format = require('chalk');
 
 var API_HOST = process.env.API_HOST || 'https://api.divshot.com';
+var CLIENT_ID = process.env.CLIENT_ID || '526753cf2f55bd0002000006';
 
 var cliConfigDirectory = path.join(homeDir(), '.divshot');
 var user = new User(cliConfigDirectory);
@@ -34,7 +35,7 @@ var cli = Nash.createCli({
   api: Divshot.createClient({
     token: user.get('token'),
     host: API_HOST,
-    client_id: '526753cf2f55bd0002000006'
+    client_id: CLIENT_ID
   }),
   
   user: user,
@@ -114,6 +115,6 @@ cli.catchAll(function (type, attemptedCommand) {
 // list
 
 // Add commands
-commands.connect(cli);
+commands(cli);
 
 module.exports = cli;
