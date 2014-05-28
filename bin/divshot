@@ -4,6 +4,7 @@ var cli = require('../lib/cli');
 var updateNotifier = require('update-notifier');
 var pkg = require('../package.json');
 var feedback = require('feedback');
+var print = require('pretty-print');
 var updateCheckInterval = 1000 * 60 * 60 * 24 * 7; // 1 week
 
 // Check for update

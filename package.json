@@ -16,6 +16,7 @@
     "moment": "~2.6.0",
     "nash": "0.3.x",
     "open": "0.0.5",
+    "pretty-print": "^0.4.1",
     "promptly": "~0.2.0",
     "read": "1.0.x",
     "regular": "~0.1.3",

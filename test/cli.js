@@ -1,4 +1,3 @@
-var fs = require('fs');
 var path = require('path');
 var cli = require('../lib/cli');
 var errors = require('../lib/errors');
@@ -32,7 +31,8 @@ describe('cli', function () {
   });
   
   it('loads all commands', function () {
-    expect(cli.commands).to.contain.keys(['apps']); // Don't hard code this?
+    var len  = Object.keys(cli.commands).length;
+    expect(len).to.be.above(1);
   });
   
 });

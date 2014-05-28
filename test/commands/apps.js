@@ -15,6 +15,8 @@ describe('apps', function () {
     api = requestBuilder();
   });
   
+  it('authenticates before the command is ran');
+  
   it('prints out the user apps', function () {
     api.when('GET', '/apps').respond({
       self: [
@@ -62,7 +64,7 @@ describe('apps', function () {
     });
   });
   
-  it('prints error for invalid token', function (done) {
+  it('prints error for invalid token', function () {
     api.when('GET', '/apps')
       .respond({
         error: 'invalid_token'
@@ -71,14 +73,12 @@ describe('apps', function () {
       
     appsCommand(cli, api);
     
-    cli.testCommand('apps').then(function (res) {
-    }, function (err) {
+    cli.testCommand('apps').then(function (err) {
       expect(err).to.equal(errors.INVALID_TOKEN);
-      done();
-    }).done();
+    });
   });
   
-  it('prints the error returned from the api', function (done) {
+  it('prints the error returned from the api', function () {
     api.when('GET', '/apps')
       .respond({
         error: 'api error'
@@ -87,11 +87,9 @@ describe('apps', function () {
       
     appsCommand(cli, api);
     
-    cli.testCommand('apps').then(function (res) {
-    }, function (err) {
+    cli.testCommand('apps').then(function (err) {
       expect(err).to.equal('api error');
-      done();
-    }).done();
+    });
   });
   
 });
