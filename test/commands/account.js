@@ -109,22 +109,27 @@ describe('account:redeem <code>', function () {
     accountCommand(cli, api);
   });
   
-  it.skip('errors when node code is given', function (done) {
-    cli.testCommand('account:redeem').then(function (res) {}, function (err) {
-      console.log(err);
-      // expect(err).to.equal(cli.errors.INVALID_VOUCHER);
+  it('errors when node code is given', function (done) {
+    cli.on('error', function (err) {
+      expect(err).to.equal(cli.errors.INVALID_VOUCHER);
       done();
-    }).done();
+    });
+    
+    cli.testCommand('account:redeem');
   });
   
   
-  it.skip('something', function () {
+  it('successfully redeems voucher', function () {
     return cli.testCommand('account:redeem', 123).then(function (res) {
-      
+      expect(res.output).to.have.string('applied to your account');
+      expect(res.output).to.have.string('$1');
     });
   });
   
-  
+  it('generic error');
+  it('voucher returned a 304');
+  it('voucher returned a 404');
+  it('voucher returned a 403');
   
 });
 
@@ -158,6 +163,6 @@ function userObject () {
 
 function redeemObject() {
   return {
-    
+    amount: 100
   };
 }
