@@ -109,13 +109,10 @@ describe('account:redeem <code>', function () {
     accountCommand(cli, api);
   });
   
-  it('errors when node code is given', function (done) {
-    cli.on('error', function (err) {
-      expect(err).to.equal(cli.errors.INVALID_VOUCHER);
-      done();
+  it('errors when node code is given', function () {
+    return cli.testCommand('account:redeem').then(function (res) {
+      expect(res).to.equal(cli.errors.INVALID_VOUCHER);
     });
-    
-    cli.testCommand('account:redeem');
   });
   
   
@@ -126,11 +123,31 @@ describe('account:redeem <code>', function () {
     });
   });
   
-  it('generic error');
-  it('voucher returned a 304');
-  it('voucher returned a 404');
-  it('voucher returned a 403');
+  it('generic error', function () {
+    return expectCommandPrintsErrorFromStatus(400, errors.DEFAULT);
+  });
   
+  it('voucher returned a 304', function () {
+    return expectCommandPrintsErrorFromStatus(304, errors.VOUCHER_USED_BY_YOU);
+  });
+  
+  it('voucher returned a 404', function () {
+    return expectCommandPrintsErrorFromStatus(404, errors.INVALID_VOUCHER);
+  });
+  
+  it('voucher returned a 403', function () {
+    return expectCommandPrintsErrorFromStatus(403, errors.VOUCHER_USED);
+  });
+  
+  function expectCommandPrintsErrorFromStatus (status, err) {
+    api = requestBuilder();
+    api.when('PUT', '/vouchers/123/redeem').status(status);
+    accountCommand(cli, api);
+    
+    return cli.testCommand('account:redeem', 123).then(function (res) {
+      expect(res).to.equal(err);
+    });
+  }
 });
 
 function userObject () {
