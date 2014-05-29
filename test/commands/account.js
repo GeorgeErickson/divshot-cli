@@ -17,7 +17,10 @@ describe('account command', function () {
     api.when('GET', '/self')
       .respond(userObject());
     
-    accountCommand(cli, api);
+    accountCommand({
+      cli: cli,
+      api: api
+    });
   });
   
   it('prints out the account balance', function () {
@@ -84,7 +87,10 @@ describe('account command', function () {
     cli = nash({errors: errors});
     api = requestBuilder();
     api.when('GET', '/self').status(401);
-    accountCommand(cli, api);
+    accountCommand({
+      cli: cli,
+      api: api
+    });
     
     return cli.testCommand('account').then(function (err) {
       expect(err).to.equal(cli.errors.DEFAULT);
@@ -106,7 +112,10 @@ describe('account:redeem <code>', function () {
     api.when('PUT', '/vouchers/123/redeem')
       .respond(redeemObject());
     
-    accountCommand(cli, api);
+    accountCommand({
+      cli: cli,
+      api: api
+    });
   });
   
   it('errors when node code is given', function () {
@@ -142,7 +151,10 @@ describe('account:redeem <code>', function () {
   function expectCommandPrintsErrorFromStatus (status, err) {
     api = requestBuilder();
     api.when('PUT', '/vouchers/123/redeem').status(status);
-    accountCommand(cli, api);
+    accountCommand({
+      cli: cli,
+      api: api
+    });
     
     return cli.testCommand('account:redeem', 123).then(function (res) {
       expect(res).to.equal(err);

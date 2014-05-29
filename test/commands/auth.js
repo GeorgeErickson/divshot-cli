@@ -12,7 +12,10 @@ describe('auth command', function () {
       }
     };
     
-    authCommand(cli, {}, user);
+    authCommand({
+      cli: cli,
+      user: user
+    });
     
     return cli.testCommand('auth:token').then(function (res) {
       expect(res.output).to.contain.string('token');

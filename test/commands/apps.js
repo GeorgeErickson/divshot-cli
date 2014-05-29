@@ -24,7 +24,10 @@ describe('apps', function () {
       ]
     });
     
-    appsCommand(cli, api);
+    appsCommand({
+      cli: cli,
+      api: api
+    });
     
     return cli.testCommand('apps').then(function (res) {
       expect(res.output.toLowerCase()).to.have.string('your apps');
@@ -40,7 +43,10 @@ describe('apps', function () {
       ]
     });
     
-    appsCommand(cli, api);
+    appsCommand({
+      cli: cli,
+      api: api
+    });
     
     return cli.testCommand('apps').then(function (res) {
       expect(res.output).to.have.string('testorg apps');
@@ -57,7 +63,10 @@ describe('apps', function () {
       ]
     });
     
-    appsCommand(cli, api);
+    appsCommand({
+      cli: cli,
+      api: api
+    });
     
     return cli.testCommand('apps').then(function (res) {
       expect(res.output).to.match(/architectapp$/);
@@ -71,7 +80,10 @@ describe('apps', function () {
       })
       .status(401);
       
-    appsCommand(cli, api);
+    appsCommand({
+      cli: cli,
+      api: api
+    });
     
     cli.testCommand('apps').then(function (err) {
       expect(err).to.equal(errors.INVALID_TOKEN);
@@ -85,7 +97,10 @@ describe('apps', function () {
       })
       .status(401);
       
-    appsCommand(cli, api);
+    appsCommand({
+      cli: cli,
+      api: api
+    });
     
     cli.testCommand('apps').then(function (err) {
       expect(err).to.equal('api error');
