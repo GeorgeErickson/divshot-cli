@@ -9,15 +9,8 @@ describe('cli', function () {
     expect(cli.command).to.not.equal(undefined);
   });
   
-  it('loads error descriptions into the cli', function () {
-    expect(cli.errors).to.eql(errors);
-  });
-  
-  it('loads the api request library into the cli', function () {
-    expect(cli.api).to.not.equal(undefined);
-  });
-  
-  it('uses the api host on the process environment', function () {
+  // FIXME: test this differently
+  it.skip('uses the api host on the process environment', function () {
     var p = path.resolve(__dirname, '../lib/cli.js');
     delete require.cache[p];
     process.env.API_HOST = 'http://localhost';

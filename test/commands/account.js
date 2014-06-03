@@ -9,9 +9,7 @@ describe('account command', function () {
   var api;
   
   beforeEach(function () {
-    cli = nash({
-      errors: errors
-    });
+    cli = nash();
     api = requestBuilder();
     
     api.when('GET', '/self')
@@ -19,7 +17,8 @@ describe('account command', function () {
     
     accountCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
   });
   
@@ -84,16 +83,17 @@ describe('account command', function () {
   });
   
   it('prints default error on any error', function () {
-    cli = nash({errors: errors});
+    cli = nash();
     api = requestBuilder();
     api.when('GET', '/self').status(401);
     accountCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     return cli.testCommand('account').then(function (err) {
-      expect(err).to.equal(cli.errors.DEFAULT);
+      expect(err).to.equal(errors.DEFAULT);
     });
   });
   
@@ -104,9 +104,7 @@ describe('account:redeem <code>', function () {
   var api;
   
   beforeEach(function () {
-    cli = nash({
-      errors: errors
-    });
+    cli = nash();
     api = requestBuilder();
     
     api.when('PUT', '/vouchers/123/redeem')
@@ -114,13 +112,14 @@ describe('account:redeem <code>', function () {
     
     accountCommand({
       cli: cli,
-      api: api
+      api: api, 
+      errors: errors
     });
   });
   
   it('errors when node code is given', function () {
     return cli.testCommand('account:redeem').then(function (res) {
-      expect(res).to.equal(cli.errors.INVALID_VOUCHER);
+      expect(res).to.equal(errors.INVALID_VOUCHER);
     });
   });
   
@@ -153,7 +152,8 @@ describe('account:redeem <code>', function () {
     api.when('PUT', '/vouchers/123/redeem').status(status);
     accountCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     return cli.testCommand('account:redeem', 123).then(function (res) {

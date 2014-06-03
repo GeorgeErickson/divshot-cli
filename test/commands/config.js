@@ -42,18 +42,25 @@ describe('config command', function () {
     });
   });
   
-  it('throws error if no key is provided when removing from config');
+  it('throws error if no key is provided when removing from config', function () {
+    var config = {};
+    var cli = createCliAndExecuteConfigCommand(config);
+    return cli.testCommand('config:add', 'key', 'value').then(function (res) {
+      return cli.testCommand('config:remove').then(function (res) {
+        expect(res).to.eql(errors.MISSING_CONFIG_KEY);
+      });
+    });
+  });
   
   function createCliAndExecuteConfigCommand (config) {
     config = config || {};
     
-    var cli = nash({
-      errors: errors
-    });
+    var cli = nash();
     var api = requestBuilder();
     
     configCommand({
       cli: cli,
+      errors: errors,
       cwd: {
         getConfig: function () {
           return {key: 'value'};

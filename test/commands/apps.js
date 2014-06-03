@@ -9,9 +9,7 @@ describe('apps', function () {
   var api;
   
   beforeEach(function () {
-    cli = nash({
-      errors: errors
-    });
+    cli = nash();
     api = requestBuilder();
   });
   
@@ -26,7 +24,8 @@ describe('apps', function () {
     
     appsCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     return cli.testCommand('apps').then(function (res) {
@@ -45,7 +44,8 @@ describe('apps', function () {
     
     appsCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     return cli.testCommand('apps').then(function (res) {
@@ -65,7 +65,8 @@ describe('apps', function () {
     
     appsCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     return cli.testCommand('apps').then(function (res) {
@@ -82,7 +83,8 @@ describe('apps', function () {
       
     appsCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     cli.testCommand('apps').then(function (err) {
@@ -99,7 +101,8 @@ describe('apps', function () {
       
     appsCommand({
       cli: cli,
-      api: api
+      api: api,
+      errors: errors
     });
     
     cli.testCommand('apps').then(function (err) {
