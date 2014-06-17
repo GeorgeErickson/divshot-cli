@@ -21,7 +21,7 @@
     "request": "2.36.x",
     "sizer": "0.1.x",
     "superstatic": "~0.11.0",
-    "tarzan": "~0.2.0",
+    "tarzan": "GeorgeErickson/tarzan",
     "through": "~2.3.4",
     "update-notifier": "~0.1.8",
     "writestreamp": "^0.1.0",
